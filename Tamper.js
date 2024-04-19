@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         Diagnostic Links for BackOffice 2d Array Test
 // @namespace    http://tampermonkey.net/
-// @version      2024-03-19
+// @version      2
 // @description  Adds links for easy access to Diag reports
 // @author       Ty Wark / https://lightspeedhq.atlassian.net/wiki/spaces/CLOUD/pages/139441487/Looker+Diagnostic+Analytics+Reports
 // @match        https://lightspeedanalytics.net/cl_accounts/settings
