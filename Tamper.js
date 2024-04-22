@@ -1,28 +1,21 @@
 
 // ==UserScript==
-// @name         Diagnostic Links for BackOffice 2d Array Test
+// @name         Diagnostic Links for BackOffice
 // @namespace    http://tampermonkey.net/
-// @version      2
+// @version      1.0
 // @description  Adds links for easy access to Diag reports
-// @author       Ty Wark / https://lightspeedhq.atlassian.net/wiki/spaces/CLOUD/pages/139441487/Looker+Diagnostic+Analytics+Reports
+// @author       Ty Wark
 // @match        https://lightspeedanalytics.net/cl_accounts/settings
 // @match        https://app.lightspeedanalytics.net/embed/explore/*
 // @match        https://app.lightspeedanalytics.net/embed/*
 // @run-at      document-idle
 // @grant       GM_addStyle
+// @downloadURL https://github.com/TyrWark/LSDiagReport/blob/a1d71fb08f54ca2632ec4c14c2544a4a32e3dad7/Tamper.js
+// @updateURL https://github.com/TyrWark/LSDiagReport/blob/a1d71fb08f54ca2632ec4c14c2544a4a32e3dad7/Tamper.js
 // ==/UserScript==
 
+//Documentation found here https://lightspeedhq.atlassian.net/wiki/spaces/CLOUD/pages/139441487/Looker+Diagnostic+Analytics+Reports
 
-
-const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
-
-
-
-
-
-
-
-//console.log(document.documentElement.clientWidth)
 
 
 
@@ -148,7 +141,15 @@ if (window.top === window.self) {
 
 
         // Fire Primer
-        setTimeout(function(){window.open("https://lightspeedanalytics.net/category/1/reports/42719")},100)
+        setTimeout(function(){
+
+            var windowfire = window.open("https://lightspeedanalytics.net/category/1/reports/42719")
+            windowfire.blur() //Doesnt work?
+            setTimeout(function(){
+                console.log(windowfire.name)
+                console.log(windowfire.close())
+            },3000)
+        },100)
         //         setTimeout(function(){window.focus},500)
 
 
@@ -257,7 +258,7 @@ if (window.top === window.self) {
                 ["Sales Present Past 365 Days","https://app.lightspeedanalytics.net/embed/explore/new_sf_sales/sales?qid=jKA7qENU1KlYvCjbg5Zjba&embed_domain=lightspeedanalytics.net&origin_space=315&toggle=fil,vis"],
                 ["Sales, past 168 hours","https://app.lightspeedanalytics.net/embed/explore/new_sf_sales/sales?qid=jgJbEMz8XHxsdqV34PercV&embed_domain=lightspeedanalytics.net&origin_space=315&toggle=vis"],
                 ["Summary of Missing Items","https://app.lightspeedanalytics.net/embed/explore/new_sf_item_metrics/items?qid=NG1M12mJriU13oJNNYwsbH&embed_domain=lightspeedanalytics.net&origin_space=54&toggle=pik,vis"],
-                ["Possible Cost Variance","https://app.lightspeedanalytics.net/embed/merge?embed_domain=lightspeedanalytics.net&mid=p3uUi7lLNK5STP0WxQmcde&toggle=dat,mrp,pik,vis"],
+                ["Possible Cost Variance","https://app.lightspeedanalytics.net/embed/merge?embed_domain=lightspeedanalytics.net&mid=VB3903Tgdqpzcjy9oXu72v&toggle=dat,mrp,pik,vis"],
 
 
 
@@ -419,10 +420,8 @@ else{
 
 
 
-        }, 12000);
+        }, 8000);
 
     }
 }
 
-
-//Testing Updates
