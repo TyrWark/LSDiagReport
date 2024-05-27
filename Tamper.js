@@ -10,8 +10,6 @@
 // @match        https://app.lightspeedanalytics.net/embed/*
 // @run-at      document-idle
 // @grant       GM_addStyle
-// @downloadURL https://github.com/TyrWark/LSDiagReport/blob/a1d71fb08f54ca2632ec4c14c2544a4a32e3dad7/Tamper.js
-// @updateURL https://github.com/TyrWark/LSDiagReport/blob/a1d71fb08f54ca2632ec4c14c2544a4a32e3dad7/Tamper.js
 // ==/UserScript==
 
 //Documentation found here https://lightspeedhq.atlassian.net/wiki/spaces/CLOUD/pages/139441487/Looker+Diagnostic+Analytics+Reports
@@ -29,11 +27,8 @@
 
 
 
-
-
-
 //2D Array Test 1
-//Report Name, Link, Header?
+// Report Name, Link, Header?
 // headers = reportbank[i][2]
 //reportname = reportbank[i][0]
 //reportlinks = reportbank[i][1]
@@ -41,7 +36,6 @@
 let reportbank = [
 
     ["",null,false],
-    ["Primer","https://lightspeedanalytics.net/category/1/reports/42726",true],
     ["Sync Checks", null, true],
     ["Sales Present Past 365 Days","https://app.lightspeedanalytics.net/embed/explore/new_sf_sales/sales?qid=jKA7qENU1KlYvCjbg5Zjba&embed_domain=lightspeedanalytics.net&origin_space=315&toggle=fil,vis", false],
     ["Sales by Year: Past 10 Years","https://app.lightspeedanalytics.net/embed/explore/new_sf_sales/sales?qid=amHFyexUG80uP3RDff0iqE&embed_domain=lightspeedanalytics.net&origin_space=315&toggle=pik,vis",false],
@@ -99,6 +93,106 @@ let reportbank = [
 
 ]
 
+
+
+
+//reportlinksvis = customdashinfo[i][0]
+//reportnamevis = customdashinfo[i][1]
+// Report Name, Link
+var customdashinfo = [
+
+    ["Sales Present Past 365 Days","https://app.lightspeedanalytics.net/embed/explore/new_sf_sales/sales?qid=jKA7qENU1KlYvCjbg5Zjba&embed_domain=lightspeedanalytics.net&origin_space=315&toggle=fil,vis"],
+    ["Sales, past 168 hours","https://app.lightspeedanalytics.net/embed/explore/new_sf_sales/sales?qid=jgJbEMz8XHxsdqV34PercV&embed_domain=lightspeedanalytics.net&origin_space=315&toggle=vis"],
+    ["Summary of Missing Items","https://app.lightspeedanalytics.net/embed/explore/new_sf_item_metrics/items?qid=NG1M12mJriU13oJNNYwsbH&embed_domain=lightspeedanalytics.net&origin_space=54&toggle=pik,vis"],
+    ["Possible Cost Variance","https://app.lightspeedanalytics.net/embed/merge?embed_domain=lightspeedanalytics.net&mid=VB3903Tgdqpzcjy9oXu72v&toggle=dat,mrp,pik,vis"],
+
+
+
+
+]
+
+
+
+
+
+//List Out Report Function
+var CreateReportList = function CreateList(){
+    setTimeout(function() {
+
+
+        for (let i = 0; i < reportbank.length; i++) {
+
+
+
+
+
+            //Check to see if this is a spacer line + reset the namecheck per loop
+            var namecheck = false
+            if (reportbank[i][2] == true)
+            {namecheck = true}
+
+            //console.log(namecheck)
+
+
+            //Find Box and reset link
+            var docselect = document.querySelector("#react-root > div > div > section");
+            document.createElement('div');
+            var link = ""
+
+
+
+            // If Spacer, Add extra LineBreak
+            if (namecheck == true) {
+                docselect.appendChild(document.createElement("br"));
+
+            }
+
+
+
+            // If Spacer, do not link. Else, create "A" record
+            if (namecheck != true) {
+                link = document.createElement("a")
+            }
+            else{ link = document.createElement("div")}
+
+
+            //Assign text for button
+            var linkText = document.createTextNode(reportbank[i][0]);
+            link.appendChild(linkText);
+
+            // If Spacer, do not link, else assign link to text
+            if (namecheck != true) {
+                link.href = reportbank[i][1] + "&title=" + reportbank[i][0];
+
+            }
+
+
+            //Create Text
+            docselect.appendChild(link);
+
+            // If Spacer, do not link
+            if (namecheck != true) {
+                docselect.appendChild(document.createElement("br"));
+            }
+
+        }
+    },
+
+               //Delay. Keep above 1.5 seconds to allow consistant loading
+               3000);
+
+
+}
+
+
+
+
+
+
+
+
+
+
 //Display Table
 //console.table(reportbank)
 
@@ -145,97 +239,23 @@ if (window.top === window.self) {
 
             var windowfire = window.open("https://lightspeedanalytics.net/category/1/reports/42719")
             windowfire.blur() //Doesnt work?
+            window.top.focus()
             setTimeout(function(){
                 console.log(windowfire.name)
                 console.log(windowfire.close())
-            },3000)
+            },4000)
         },100)
         //         setTimeout(function(){window.focus},500)
 
 
 
-
+        document.querySelector("#react-root > div > div > section").style.width = "160%"
+        document.querySelector("#react-root > div > div > section").style.marginLeft = "-25%"
 
 
 
 
         if (window.top === window.self) {
-
-
-            //_______________________________________________________________________________________________________________Write Out Reports_________________________________________________________________________________________________________________________________________________________________________
-
-
-
-
-
-            setTimeout(function() {
-
-
-                for (let i = 0; i < reportbank.length; i++) {
-
-
-
-
-
-                    //Check to see if this is a spacer line + reset the namecheck per loop
-                    var namecheck = false
-                    if (reportbank[i][2] == true)
-                    {namecheck = true}
-
-                    //console.log(namecheck)
-
-
-                    //Find Box and reset link
-                    var docselect = document.querySelector("#react-root > div > div > section > div.section-header > div > h1");
-                    document.createElement('div');
-                    var link = ""
-
-
-
-                    // If Spacer, Add extra LineBreak
-                    if (namecheck == true) {
-                        docselect.appendChild(document.createElement("br"));
-
-                    }
-
-
-
-                    // If Spacer, do not link. Else, create "A" record
-                    if (namecheck != true) {
-                        link = document.createElement("a")
-                    }
-                    else{ link = document.createElement("div")}
-
-
-                    //Assign text for button
-                    var linkText = document.createTextNode(reportbank[i][0]);
-                    link.appendChild(linkText);
-
-                    // If Spacer, do not link, else assign link to text
-                    if (namecheck != true) {
-                        link.href = reportbank[i][1] + "&title=" + reportbank[i][0];
-
-                    }
-
-
-                    //Create Text
-                    docselect.appendChild(link);
-
-                    // If Spacer, do not link
-                    if (namecheck != true) {
-                        docselect.appendChild(document.createElement("br"));
-                    }
-
-                }
-            },
-
-                       //Delay. Keep above 1.5 seconds to allow consistant loading
-                       3000);
-
-
-
-
-
 
 
             //_____________________________________________________________________________________________________________________Custom Dash _____________________________________________________________________________________________________________________
@@ -251,18 +271,7 @@ if (window.top === window.self) {
 
 
 
-            //reportlinksvis = customdashinfo[i][0]
-            //reportnamevis = customdashinfo[i][1]
-            var customdashinfo = [
 
-                ["Sales Present Past 365 Days","https://app.lightspeedanalytics.net/embed/explore/new_sf_sales/sales?qid=jKA7qENU1KlYvCjbg5Zjba&embed_domain=lightspeedanalytics.net&origin_space=315&toggle=fil,vis"],
-                ["Sales, past 168 hours","https://app.lightspeedanalytics.net/embed/explore/new_sf_sales/sales?qid=jgJbEMz8XHxsdqV34PercV&embed_domain=lightspeedanalytics.net&origin_space=315&toggle=vis"],
-                ["Summary of Missing Items","https://app.lightspeedanalytics.net/embed/explore/new_sf_item_metrics/items?qid=NG1M12mJriU13oJNNYwsbH&embed_domain=lightspeedanalytics.net&origin_space=54&toggle=pik,vis"],
-                ["Possible Cost Variance","https://app.lightspeedanalytics.net/embed/merge?embed_domain=lightspeedanalytics.net&mid=VB3903Tgdqpzcjy9oXu72v&toggle=dat,mrp,pik,vis"],
-
-
-
-            ]
 
 
 
@@ -282,7 +291,7 @@ if (window.top === window.self) {
                 ifrm.setAttribute("id","iframes"+[i])
                 ifrm.style.height = "400px";
                 ifrm.style.border = "2px solid red;"
-                document.body.appendChild(ifrm)
+                document.querySelector("#react-root > div > div > section").appendChild(ifrm)
                 console.log("Dash"+ i+" " +customdashinfo[i][1] + "&title=" +customdashinfo[i][0])
 
                 //   await sleepNow(1000)
@@ -305,7 +314,7 @@ if (window.top === window.self) {
 
 
             var bar = document.querySelector("#o-wrapper > header")
-            bar.style.height = "20%"
+            //bar.style.height = "20%"
             var helpbar = document.querySelector("#o-wrapper > header > nav > section")
             helpbar.remove()
             delete helpbar
@@ -318,7 +327,32 @@ if (window.top === window.self) {
         document.getElementById ("myContainer").remove()
 
 
+        // Create Second Button after first was pressed
 
+
+        var zNode = document.createElement ('div');
+        zNode.innerHTML = '<button id="myButton2" type="button">'
+            + 'List Reports!</button>'
+        ;
+        zNode.setAttribute ('id', 'myContainer2');
+        document.body.appendChild (zNode);
+
+        //--- Activate the newly added button.
+        document.getElementById ("myButton2").addEventListener (
+            "click", ButtonClickAction, false
+        );
+
+
+
+
+
+        //________________________________________________________________________________________________Button Click Event_____________________________________________________________________________________________________________________________________________________________________________________________________________
+        function ButtonClickAction (zEvent) {
+            //Append the Reports below the iFrames and delete second button
+            CreateReportList()
+            document.getElementById ("myContainer2").remove()
+
+        }
 
 
 
@@ -350,7 +384,27 @@ if (window.top === window.self) {
     }
 ` );
 
-
+    GM_addStyle ( `
+    #myContainer2 {
+        position:               absolute;
+        top:                    0;
+        left:                   100px;
+        font-size:              20px;
+        background:             orange;
+        border:                 3px outset black;
+        margin:                 5px;
+        opacity:                0.9;
+        z-index:                1100;
+        padding:                5px 20px;
+    }
+    #myButton2 {
+        cursor:                 pointer;
+    }
+    #myContainer2 p {
+        color:                  red;
+        background:             white;
+    }
+` );
 
 
 
@@ -369,13 +423,11 @@ if (window.top === window.self) {
 
 
 else{
-    // MERGE SHIT WONT DELETE? FIX
 
 
     //detect if iframe belongs to diag tool or other
     if (document.documentElement.clientWidth == 800) {
 
-        let delt = ""
 
         setTimeout(function () {
 
