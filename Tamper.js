@@ -13,10 +13,12 @@
 // ==/UserScript==
 
 //Documentation found here https://lightspeedhq.atlassian.net/wiki/spaces/CLOUD/pages/139441487/Looker+Diagnostic+Analytics+Reports
+/* globals jQuery, $, waitForKeyElements */
 
 
-
-
+var SubResp = new Object
+var ParseResp = new Array
+var table
 
 
 
@@ -346,6 +348,17 @@ if (window.top === window.self) {
 
 
 
+
+
+       //INSERT THE NEW DLC
+            if (document.URL == "https://lightspeedanalytics.net/cl_accounts/settings"){
+
+                Engine()
+
+            }
+
+
+
         //________________________________________________________________________________________________Button Click Event_____________________________________________________________________________________________________________________________________________________________________________________________________________
         function ButtonClickAction (zEvent) {
             //Append the Reports below the iFrames and delete second button
@@ -476,4 +489,194 @@ else{
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+async function GetSubs(){
+
+
+    await fetch("https://lightspeedanalytics.net/account-admin/subscriptions", {
+        "headers": {
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "accept-language": "en-US,en;q=0.9",
+          "cache-control": "max-age=0",
+          "upgrade-insecure-requests": "1"
+        },
+        "referrer": "https://lightspeedanalytics.net/enterprises/33",
+        "referrerPolicy": "strict-origin-when-cross-origin",
+        "body": null,
+        "method": "GET",
+        "mode": "cors",
+        "credentials": "same-origin"
+      }) .then(function(response) {
+        return response.text();
+      }).then(function(data) {
+        SubResp = data; // this will be a string
+      });
+
+
+
+
+}
+
+
+function Slicer(String){
+    String = String.split('table-responsive')[1]
+    String = String.split('/section')[0]
+    String = String.split('</tr>')
+    console.log(String)
+    return String
+
+}
+
+
+
+function CleanResp(array){
+    for (let i = 0; i < array.length; i++) {
+     array[i] = array[i].replaceAll(" ","")
+     array[i] = array[i].replaceAll("\n","")
+     array[i] = array[i].replaceAll("<td>","")
+     array[i] = array[i].replaceAll("<tr>","")
+     array[i] = array[i].replaceAll("<tdclass=","")
+     array[i] = array[i].split('</td>')
+    }
+console.log(array)
+array = array
+}
+
+
+
+function CleanSubArray(ParentArray){
+
+for (let i = 0; i < ParentArray.length; i++) {
+
+
+    ParentArray[i].pop()
+    ParentArray[i].pop()
+    try{ParentArray[i][3] = ParentArray[i][3].substring(46,ParentArray[i][3].length-1)}catch{null}
+
+
+
+    //Button Data ID NOT REPORT ID
+    //try{ParentArray[i].push(ParentArray[i][1].substring(7,12))}catch{null}
+
+    for (let t = 0; t < ParentArray[i].length; t++) {
+    try{ParentArray[i][t] = ParentArray[i][t].split('">')}catch{null}
+     try{ParentArray[i][t] = ParentArray[i][t].split('"subscriptions">')}catch{null}
+     try{ParentArray[i][t] = ParentArray[i][t].split('"subscriptions">')}catch{null}
+     try{
+        if(ParentArray[i][t].length == 2){
+            ParentArray[i][t] = ParentArray[i][t][1]
+        }else{ParentArray[i][t] = ParentArray[i][t][0]}
+    }
+   catch{null}
+
+     //console.log(ParentArray[i][t])
+     if(ParentArray[i][3].length == 15){
+
+        ParentArray[i][3] = "enabled"
+
+     }
+   }
+
+}
+
+console.log(ParentArray)
+ParentArray = ParentArray
+
+}
+
+//Build and Display Table
+function BuildTable(array) {
+    //setup our table array
+    var tableArr = array
+    //create a Table Object
+    table = document.createElement('table');
+    //iterate over every array(row) within tableArr
+    for (let row of tableArr) {
+        //Insert a new row element into the table element
+        table.insertRow();
+        //Iterate over every index(cell) in each array(row)
+        for (let cell of row) {
+            //While iterating over the index(cell)
+            //insert a cell into the table element
+            let newCell = table.rows[table.rows.length - 1].insertCell();
+            //add text to the created cell element
+            newCell.textContent = cell;
+        }
+    }
+    table.style.border = "1px solid red"
+    table.setAttribute("id", "maintable")
+    document.querySelector("#react-root > div > div > section").append(table);
+}
+
+
+
+function CheckEmails(){
+
+    let numberofrows = 0
+    try{
+        numberofrows = document.querySelector("#maintable > tbody").childElementCount
+    }catch{
+        numberofrows = 1
+    }
+
+    for (let i =1; i < numberofrows; i++){
+        if(i !=1){
+        let query = document.querySelector(`#maintable > tbody > tr:nth-child(${i}) > td:nth-child(1)`)
+        console.log(isValidEmail(query.innerText))
+        if(isValidEmail(query.innerText)==false){
+            query.style.backgroundColor = "red"
+        }
+
+        }
+
+
+     }
+
+
+
+
+}
+
+
+function isValidEmail(email) {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+}
+
+
+
+
+async function Engine(){
+
+    await GetSubs()
+    ParseResp = Slicer(SubResp)
+    ParseResp.shift()
+    CleanResp(ParseResp)
+    CleanSubArray(ParseResp)
+    ParseResp.unshift(["Recepient Email","Report Name","Sending Freq","Alert Mode?","Subscription Creator"])
+    BuildTable(ParseResp)
+    CheckEmails()
+
+
+
+}
+
+
+
+
+
+
+
+
 
