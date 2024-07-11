@@ -2,8 +2,8 @@
 // ==UserScript==
 // @name         Diagnostic Links for BackOffice
 // @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  Adds links for easy access to Diag reports
+// @version      2.0
+// @description  Adds links for easy access to Diag reports. Now with Subscription Email Checking.
 // @author       Ty Wark
 // @match        https://lightspeedanalytics.net/cl_accounts/settings
 // @match        https://app.lightspeedanalytics.net/embed/explore/*
