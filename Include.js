@@ -56,6 +56,7 @@ let reportbank = [
     ["Items by Vendor Count","https://app.lightspeedanalytics.net/embed/explore/sf_on_order/cl_items_on_order?qid=g73agGz2CAqu0s1cstfp5i&embed_domain=lightspeedanalytics.net&origin_space=54&toggle=vis",false],
     ["Purchasing Patterns?","https://app.lightspeedanalytics.net/embed/explore/sf_on_order/cl_items_on_order?qid=j6yhli7IVTq6ZwF7V93ra1&embed_domain=lightspeedanalytics.net&origin_space=54&toggle=vis",false],
     ["Testing Variance",null,true],
+    ["3 Hour Typical Variance","https://app.lightspeedanalytics.net/embed/explore/new_sf_sales/sales?qid=4HelejwbW3150JJfw[…]lightspeedanalytics.net&origin_space=315&toggle=dat,vis",false]
     ["QSold on Items","https://app.lightspeedanalytics.net/embed/explore/new_sf_sales/sales?qid=wQnSiplBwizvXRAhhQ9QgS&embed_domain=lightspeedanalytics.net&origin_space=315&toggle=vis",false],
     ["QSold on Sales","https://app.lightspeedanalytics.net/embed/explore/new_sf_sales/sales?qid=wQnSiplBwizvXRAhhQ9QgS&embed_domain=lightspeedanalytics.net&origin_space=315&toggle=vis",false],
     ["Un-Included Categories?","https://app.lightspeedanalytics.net/embed/explore/new_sf_item_metrics/items?qid=8UySSjNch2YjK05sxCSyVP&embed_domain=lightspeedanalytics.net&origin_space=54&toggle=dat,pik,vis",false],
