@@ -444,6 +444,8 @@ else{
                     document.querySelector("#lk-react-container > div > div > div > section > explore-subrouter > ui-view > lk-explore-dataflux > div.center > lk-explore-content > div > div > lk-data-pane").remove();
                     //Delete Nav
                     document.querySelector("#lk-react-container > div > div > div > section > explore-subrouter > ui-view > lk-explore-dataflux > div.center > lk-expandable-sidebar").remove();
+                    //Delete Gear
+                    document.querySelector("#lk-react-container > div > div > div > section > explore-subrouter > ui-view > lk-explore-dataflux > lk-explore-header > div.title-controls > lk-explore-header-menu").remove();
                 }
                 else{
 
@@ -654,7 +656,6 @@ async function Engine(){
 
 
 }
-
 
 
 
