@@ -23,8 +23,8 @@ PageUpdateCheck()
 
 async function PageUpdateCheck(){
     await timer (1000)
-    console.log("loop")
-    console.log(isRunning)
+    //console.log("loop")
+    //console.log(isRunning)
 
     if (window.location.pathname == "/back_office"){
        try { TargetRad = document.querySelector("#react-root > div > div:nth-child(4) > div > div > section > div.introduction-right > div.container-card.idBox > div:nth-child(2) > div.card-stat > h4").innerText
